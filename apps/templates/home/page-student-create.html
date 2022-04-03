@@ -1,0 +1,40 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Page User {% endblock %} 
+{% load crispy_forms_tags %}
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+          <div class="row">
+            <div class="col-md-11">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Edit Profile</h4>
+                  <p class="card-category">Complete your profile</p>
+                </div>
+                <div class="card-body">
+                <form method="post" action="{% url 'students-create' %}">
+                    {% csrf_token %}
+                 <div class="row">
+                      <div class="col-md-5">
+                        <div class="form-group">
+                                {% for f in forma %}
+                                 <p class="">{{ f | as_crispy_field   }}</p>
+                                {% endfor %}
+                                <button type="submit">Создать</button>
+                        </div>
+                      </div>
+                 </div>
+                </form>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

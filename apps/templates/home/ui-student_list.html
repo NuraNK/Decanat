@@ -1,0 +1,79 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Typography {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Список студентов</h4>
+                    <p class="card-category"> Here is a subtitle for this table</p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-hover">
+                            <thead class="text-primary">
+                            <th>
+                                Фамилия Имя
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Факльтет
+                            </th>
+                            <th>
+                                Профессия
+                            </th>
+                            <th>
+                                Дата рождения
+                            </th>
+                            </thead>
+                            <form method="GET">
+                            <p class="h4 font-weight-bold">Фильтр по параметрам</p>
+                                {% for i in filter.form %}
+                                 <label class="mr-2 ">{{ i.label }}</label>
+                                <p class="mr-3 d-inline-block" >{{ i }}</p>
+                                {% endfor %}
+                                <button type="submit" class="btn btn-primary" >Фильтровать</button>
+
+                            </form>
+                            {% for i in filter.qs %}
+                            <tbody>
+                            <tr>
+                                <td>
+                                <span >
+                                <a href="{% url "students" pk=i.pk %}"> {{ i.first_name }} {{ i.last_name }}
+                                </a>
+                                </span>
+
+                                </td>
+                                <td>
+                                    {{ i.email }}
+                                </td>
+                                <td>
+                                    {{ i.fakultet }}
+                                </td>
+                                <td>
+                                    {{ i.profession }}
+                                </td>
+                                <td class="text-primary">
+                                    {{ i.data }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

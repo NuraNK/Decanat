@@ -1,0 +1,79 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Tables {% endblock %}
+{% load static %}
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="card card-plain">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title mt-0">Список учителей</h4>
+                    <p class="card-category"> Here is a subtitle for this table</p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-hover">
+                            <thead class="text-primary">
+                            <th>
+                                Фамилия Имя
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Факльтет
+                            </th>
+                            <th>
+                                Профессия
+                            </th>
+                            <th>
+                                Дата рождения
+                            </th>
+                            </thead>
+
+                            <form method="GET">
+                                <p class="h4 font-weight-bold">Фильтр по параметрам</p>
+                                {% for i in filter.form %}
+                                <label class="mr-2 ">{{ i.label }}</label>
+                                <p class="mr-3 d-inline-block" >{{ i }}</p>
+                                {% endfor %}
+                                <button type="submit" class="btn btn-primary">Фильтровать</button>
+
+                            </form>
+
+                            {% for t in filter.qs %}
+                            <tbody>
+                            <tr>
+                                <td>
+                                <a href="{% url "teachers" pk=t.pk %}">{{ t.first_name }} {{ t.last_name }}</a>
+
+                                </td>
+                                <td>
+                                    {{ t.email }}
+                                </td>
+                                <td>
+                                    {{ t.fakultet }}
+                                </td>
+                                <td>
+                                    {{ t.profession }}
+                                </td>
+                                <td class="text-primary">
+                                    {{ t.data }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+{% block javascripts %}{% endblock javascripts %}
