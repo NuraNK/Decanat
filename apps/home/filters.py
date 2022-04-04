@@ -19,4 +19,9 @@ class StudentFilter(django_filters.FilterSet):
             'profession',
             'fakultet'
         )
-
+class ScheduleFilter(django_filters.FilterSet):
+    class Meta:
+        model = Schedule
+        fields = (
+            'group_num',
+        )

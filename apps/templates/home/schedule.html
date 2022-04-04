@@ -1,0 +1,95 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Typography {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title ">Расписание</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <form method="GET">
+                            <p class="h4 font-weight-bold">Фильтр по параметрам</p>
+                                {% for i in filter_sch.form %}
+                                 <label class="mr-2 ">{{ i.label }}</label>
+                                <p class="mr-3 d-inline-block" >{{ i }}</p>
+                                {% endfor %}
+                                <button type="submit" class="btn btn-primary" >Фильтровать</button>
+
+                            </form>
+                    <table class="table table-borderless table-hover">
+                        <tr>
+                            <th>Время</th>
+                            {% for i in day %}
+                                <th>{{ i }}</th>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>8:00</td>
+                            {% for i in day1 %}
+                                <td>{{ i.subjects }}</td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>9:00</td>
+                            {% for i in day2 %}
+                                <td>{{ i.subjects }}</td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>10:00</td>
+
+                            {% for i in day3 %}
+                                <td>{{ i.subjects }}</td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>11:00</td>
+
+                            {% for i in day4 %}
+                                <td>{{ i.subjects }}</td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>12:00</td>
+
+                            {% for i in day4 %}
+                                <td>{{ i.subjects }}</td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>13:00</td>
+
+                            {% for i in day4 %}
+                                <td>{{ i.subjects }}</td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>14:00</td>
+
+                            {% for i in day4 %}
+                                <td>{{ i.subjects }}</td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>15:00</td>
+
+                            {% for i in day4 %}
+                                <td>{{ i.subjects }}</td>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                    <a class="button" href="{% url 'group-create' %}">Создать Расписанию</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

@@ -11,14 +11,14 @@
             <div class="col-md-11">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Edit Profile</h4>
-                  <p class="card-category">Complete your profile</p>
+                  <h4 class="card-title">Профиль</h4>
                 </div>
                 <div class="card-body">
                   <form>
                     <div class="row">
                         <div class="text-center">
-                          <img src="{{ student.photo.image_url|default_if_none:'#' }}" />
+                          <img src="{{ student.photo.url }}" >
+
                         </div>
                       <div class="col-md-5">
                         <div class="form-group">
@@ -81,7 +81,7 @@
                       </div>
 
                     </div>
-                   <a class="button" href="{% url 'students-update' id=student.id %}">Update Profile</a>
+                   <a class="button" href="{% url 'students-update' pk=student.pk %}">Обновить профиль</a>
                     <div class="clearfix"></div>
                   </form>
                 </div>

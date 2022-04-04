@@ -11,9 +11,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template import loader
 from django.urls import reverse
 from django.views.generic import DetailView, UpdateView, CreateView, ListView, DeleteView
-from .form import TeacherForm, StudentForm
-from .models import Students,Teachers, Profession,Subjects, Fakultet
-from .filters import TeachersFilter
+from .form import TeacherForm, StudentForm, ScheduleForm, GroupNumForm
+from .models import Students,Teachers, Profession,Subjects, Fakultet, Time, GroupNum, Schedule, Days
+from .filters import TeachersFilter, ScheduleFilter, StudentFilter
+
 
 @csrf_exempt
 @login_required(login_url="/login/")
@@ -41,16 +42,11 @@ class TeacherDetailView(DetailView):
     model = Teachers
     context_object_name = 'teacher'
 
-@csrf_exempt
-def update_view(request, id):
-    context = {}
-    obj = get_object_or_404(Teachers, id=id)
-    form = TeacherForm(request.POST or None, instance=obj)
-    if form.is_valid():
-        form.save()
-        return HttpResponseRedirect("/" + id)
-    context["form"] = form
-    return render(request, "home/page-update-teacher.html", context)
+class TeachersUpdateView(UpdateView):
+    model = Teachers
+    form_class = TeacherForm
+    template_name = 'home/page-update-teacher.html'
+    success_url = '/teachers/list/'
 
 @csrf_exempt
 @login_required(login_url="/login/")
@@ -74,7 +70,7 @@ class StudentListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # print(context)
-        context['filter'] = TeachersFilter(self.request.GET, queryset=self.get_queryset())
+        context['filter'] = StudentFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
 class StudentDetailView(DetailView):
@@ -82,25 +78,13 @@ class StudentDetailView(DetailView):
     model = Students
     context_object_name = 'student'
 
-@csrf_exempt
-def student_update_view(request, id):
-    context = {}
-    obj = get_object_or_404(Students, id=id)
-    form = StudentForm(request.POST or None, instance=obj)
-    if form.is_valid():
-        form.save()
-        return HttpResponseRedirect("/" + id)
-    context["form"] = form
-    return render(request, "home/page-update-student.html", context)
+class StudentUpdateView(UpdateView):
+    model = Students
+    form_class = StudentForm
+    template_name = 'home/page-update-student.html'
+    success_url = '/students/list/'
 
-@csrf_exempt
-@login_required(login_url="/login/")
-def delete_student(request, pk):
-    query = Students.objects.get(id=pk)
-    if request.method == 'POST':
-        query.delete()
-        return redirect('students-list')
-    return render(request, 'home/page-update-student.html',{'query':query})
+
 
 @csrf_exempt
 @login_required(login_url="/login/")
@@ -145,10 +129,70 @@ def pages(request):
         return HttpResponse(html_template.render(context, request))
 
 
-class Filter(ListView):
+def map(request):
+    return render(request, 'home/ui-maps.html')
 
-    def get_queryset(self):
-        queryset = Profession.objects.filter(
-            name__in=self.request.GET.get('name')
+def notifications(request):
+    return render(request, 'home/ui-notifications.html')
+
+class ScheduleListView(ListView):
+    model = Schedule
+    template_name = 'home/schedule.html'
+    context_object_name = 'schedule'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # print(context)
+        context['filter'] = ScheduleFilter(self.request.GET, queryset=self.get_queryset())
+        # print(self.request.GET)
+        time = Time.objects.all()
+        day = Days.objects.all()
+        day1 = Schedule.objects.filter(
+            group_num=1,
+            time_id=1
         )
-        return queryset
+        day2 = Schedule.objects.filter(
+            group_num=1,
+            time_id=2
+        )
+        day3 = Schedule.objects.filter(
+            group_num=1,
+            time_id=3
+        )
+        day4 = Schedule.objects.filter(
+            group_num=1,
+            time_id=4
+        )
+        context['time']=time
+        context['day']=day
+        context['day1'] = day1
+        context['day2'] = day2
+        context['day3'] = day3
+        context['day4'] = day4
+        return context
+
+    #
+    # def get_queryset(self):
+    #     query = Schedule.objects.filter(group_num=1)
+    #     return query
+
+
+@csrf_exempt
+@login_required(login_url="/login/")
+def create_schedule(request):
+    if request.method == 'POST':
+        form_schedule = ScheduleForm(request.POST, request.FILES)
+        if form_schedule.is_valid():
+            # form.save()
+            Schedule.objects.create(**form_schedule.cleaned_data)
+            return redirect('schedule-create')
+    else:
+        form_schedule = ScheduleForm()
+    return render(request, "home/schedule-create.html", {'form_schedule':form_schedule})
+
+class GroupView(CreateView):
+    model = GroupNum
+    form_class = GroupNumForm
+    template_name = 'home/group-create.html'
+    success_url = '/group-create/'
+

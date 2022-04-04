@@ -11,17 +11,16 @@
             <div class="col-md-11">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Создать профиль</h4>
+                  <h4 class="card-title">Создать Группу</h4>
                 </div>
                 <div class="card-body">
-                <form method="post" action="{% url 'teachers-create' %}">
+                <form method="post" action="{% url 'group-create' %}">
                     {% csrf_token %}
                  <div class="row">
                       <div class="col-md-5">
                         <div class="form-group">
                                 {% for f in form %}
-{#                                <label class="bmd-label-floating">{{f.label}}:</label>#}
-                                 <p class="" >{{ f | as_crispy_field   }}</p>
+                                 <p class="">{{ f | as_crispy_field   }}</p>
                                 {% endfor %}
                                 <button type="submit">Создать</button>
                         </div>

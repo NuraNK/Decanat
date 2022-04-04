@@ -7,21 +7,12 @@
 
 {% block content %}
 
-    <div id="map"></div>
+    <div id="map"><iframe class="ml-auto" src="https://yandex.ru/map-widget/v1/?um=constructor%3Ad80aa3eefe10a657e8db539a2d8ad0324ee29c011f189a3a8863360d6716591a&amp;source=constructor" width="1650" height="820" frameborder="0"></iframe></div>
 
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
-  <!--  Google Maps Plugin    -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 
-  <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/js/demos.js
-      demo.initGoogleMaps();
-    });
-  </script>
-  
 {% endblock javascripts %}

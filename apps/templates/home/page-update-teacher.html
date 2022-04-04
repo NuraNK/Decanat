@@ -12,11 +12,10 @@
             <div class="col-md-11">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Edit Profile</h4>
-                  <p class="card-category">Complete your profile</p>
+                  <h4 class="card-title">Обновить профиль</h4>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{% url 'teachers-list' %}">
+                    <form method="POST" action="">
                     {% csrf_token %}
                  <div class="row">
                       <div class="col-md-5">
